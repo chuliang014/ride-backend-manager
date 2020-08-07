@@ -17,7 +17,7 @@ export default class Life extends React.Component {
 
     render() {
         return (
-            <div style={{marginLeft:20}}>
+            <div className="content">
                 <p>react life cycle introduction</p>
                 <button onClick={this.handleBtnClick.bind(this)}>点击一下</button>
                 <p>{this.state.count}</p>
