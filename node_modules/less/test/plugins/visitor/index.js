@@ -8,7 +8,7 @@
         run: function (root) {
             return this._visitor.visit(root);
         },
-        visitDeclaration: function (ruleNode, visitArgs) {
+        visitRule: function (ruleNode, visitArgs) {
             if (ruleNode.name != '-some-aribitrary-property') {
                 return ruleNode;
             } else {
