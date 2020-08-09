@@ -1,21 +1,20 @@
-.container {
-    display: flex;
+@import './default.less';
 
+.container {
     .nav-left {
         background-color: #001529;
-        width: 15%;
-        min-width: 180px;
         // 1vh = 1%
         height: calc(100vh);
     }
 
     .main {
-        flex: 1;
+        background-color: @colorL;
         height: calc(100vh);
     }
 
     .content {
         position: relative;
         padding: 20px;
+
     }
 }
