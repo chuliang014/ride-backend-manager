@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Card, Button, Radio } from 'antd';
 import {
     SearchOutlined, DownloadOutlined, PlusOutlined,
@@ -25,15 +25,15 @@ export default class Buttons extends React.Component {
         }, 5000);
     }
 
-    handleButtonChange = (e) =>{
+    handleButtonChange = (e) => {
         this.setState({
-            size:e.target.value
+            size: e.target.value
         })
     }
 
     render() {
         return (
-            <div>
+            <Fragment>
                 <Card title="基础按钮" className="card-wrap">
                     <Button type="primary">demo</Button>
                     <Button>demo</Button>
@@ -73,8 +73,7 @@ export default class Buttons extends React.Component {
                     <Button size={this.state.size} type="dashed">demo</Button>
                     <Button size={this.state.size} danger>demo</Button>
                 </Card>
-            </div>
-
+            </Fragment>
         );
     }
 }

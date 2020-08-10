@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Card, Button, Modal } from 'antd';
 // import {
 //     SearchOutlined, DownloadOutlined, PlusOutlined,
@@ -35,7 +35,7 @@ export default class Modals extends React.Component {
 
     render() {
         return (
-            <div>
+            <Fragment>
                 <Card title="基础模态框" className="card-wrap">
                     <Button type="primary" onClick={() => this.handleOpen('showModal1')}>Open</Button>
                     <Button type="primary" onClick={() => this.handleOpen('showModal2')}>自定义页脚</Button>
@@ -92,7 +92,7 @@ export default class Modals extends React.Component {
                         })
                     }}
                 > 欢迎</Modal>
-            </div>
+            </Fragment>
         );
     }
 }
