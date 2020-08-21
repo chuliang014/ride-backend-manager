@@ -32,9 +32,10 @@ export default class FormLogin extends React.Component {
                 <Card title="登录水平表单" className="card-wrap">
                     <Form
                         style={{ width: 300 }}
-                        onFinish={this.onFinish}
                         // checkbox 默认选中要在Form设置initialValues,并且子组件上要valuePropName="checked"
                         initialValues={{ remember: true }}
+                        onFinish={this.onFinish}
+                        
                     >
 
                         <FormItem
@@ -80,7 +81,7 @@ export default class FormLogin extends React.Component {
                             <Checkbox>
                                 Remember me
                             </Checkbox>
-                            <a href="#" style={{ float: 'right' }}>Forget Password</a>
+                            <a href="javascript:;" style={{ float: 'right' }}>Forget Password</a>
                         </FormItem>
 
                         <FormItem>
