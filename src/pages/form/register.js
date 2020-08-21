@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Card, Form, Button, Input, Checkbox, Radio, Select, Switch, DatePicker, TimePicker, Upload, message, InputNumber } from 'antd';
-import { UserOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -229,7 +229,7 @@ export default class FormRegister extends React.Component {
                             {...offsetLayout}
                             name="agreement"
                         >
-                            <Checkbox>我已阅读过<a href="#">协议</a></Checkbox>
+                            <Checkbox>我已阅读过协议</Checkbox>
                         </FormItem>
                         {/*  */}
                         <FormItem

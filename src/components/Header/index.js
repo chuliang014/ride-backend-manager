@@ -19,7 +19,8 @@ export default class Header extends React.Component {
                 sysTime
             });
         }, 1000)
-        this.getWeatherAPIData();
+        // 限制访问。所以暂时先不获取天气
+        // this.getWeatherAPIData();
     }
 
     //jsonp跨域： 协议相同 端口相同 域名相同
@@ -43,7 +44,7 @@ export default class Header extends React.Component {
                 <Row className="header-top">
                     <Col span="24">
                         <span>Welcome, {this.state.userName}</span>
-                        <a href="#">退出</a>
+                        <a href="">退出</a>
                     </Col>
                 </Row>
                 <Row className="breadcrumb">

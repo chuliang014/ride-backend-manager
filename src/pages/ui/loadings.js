@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Card, Button, Spin, Alert } from 'antd';
+import { Card, Spin, Alert } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import './ui.less';
 
