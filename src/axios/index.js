@@ -26,7 +26,7 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
-        let baseApi = "http://mock.jszhong.top/mock/5f405a4802b6b25da6c3aae8/api";
+        let baseApi = "http://106.12.220.186:4000/api/";
         return new Promise((resolve, reject) => {
             axios({
                 url: options.url,
@@ -42,7 +42,7 @@ export default class Axios {
                 if (response.status === 200) {
                     let res = response.data;
                     console.log(res)
-                    if (res.code === 0) {
+                    if (res.code === "0") {
                         resolve(res);
                     } else {
                         Modal.info({

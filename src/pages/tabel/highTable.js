@@ -43,9 +43,9 @@ export default class HighTable extends React.Component {
     handleDelete = (item) => {
         let id = item.id;
         Modal.confirm({
-            title:'Confirm',
-            content:'您确定要删除此条数据吗？',
-            onOk: ()=>{
+            title: 'Confirm',
+            content: '您确定要删除此条数据吗？',
+            onOk: () => {
                 message.success('删除成功');
                 this.request();
             }
@@ -343,8 +343,8 @@ export default class HighTable extends React.Component {
             },
             {
                 title: '操作',
-                render:(text, item) => {
-                    return (<Button size="small" onClick={(item) => {this.handleDelete(item)}}>删除</Button>)
+                render: (text, item) => {
+                    return (<Button size="small" onClick={(item) => { this.handleDelete(item) }}>删除</Button>)
                 }
             },
         ];
