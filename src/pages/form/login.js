@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
-import { Card, Form, Input, Button, message, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Card, Form, Input, Button, message, Checkbox, Icon } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -35,7 +34,7 @@ export default class FormLogin extends React.Component {
                         // checkbox 默认选中要在Form设置initialValues,并且子组件上要valuePropName="checked"
                         initialValues={{ remember: true }}
                         onFinish={this.onFinish}
-                        
+
                     >
 
                         <FormItem
@@ -59,7 +58,7 @@ export default class FormLogin extends React.Component {
                             ]}
                         >
                             {/* prefix是在输入框前面加图标 */}
-                            <Input prefix={<UserOutlined />} />
+                            <Input prefix={<Icon type="user" />} />
                         </FormItem>
 
                         <FormItem
@@ -71,7 +70,7 @@ export default class FormLogin extends React.Component {
                             }]}
                         >
                             {/* 密码框 */}
-                            <Input.Password prefix={<LockOutlined />} />
+                            <Input.Password prefix={<Icon type="lock" />} />
                         </FormItem>
 
                         <FormItem

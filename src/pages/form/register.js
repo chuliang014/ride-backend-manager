@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Card, Form, Button, Input, Checkbox, Radio, Select, Switch, DatePicker, TimePicker, Upload, message, InputNumber } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Card, Form, Button, Input, Checkbox, Radio, Select, Switch, DatePicker, TimePicker, Upload, message, InputNumber, Icon } from 'antd';
+
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -80,7 +80,7 @@ export default class FormRegister extends React.Component {
 
         const uploadButton = (
             <div>
-                {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+                {this.state.loading ?  <Icon type="loading"/>: <Icon type="plus"/>}
                 <div className="ant-upload-text">Upload</div>
             </div>
         );

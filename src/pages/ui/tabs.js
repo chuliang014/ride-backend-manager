@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
-import { Card, Tabs, message } from 'antd';
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
+import { Card, Tabs, message, Icon } from 'antd';
 import './ui.less';
 
 const { TabPane } = Tabs;
@@ -102,13 +101,13 @@ export default class Tab extends React.Component {
                 </Card>
                 <Card title="Tab带图的页签" className="card-wrap">
                     <Tabs defaultActiveKey="1" onChange={this.callback}>
-                        <TabPane tab={<span> <AppleOutlined />Tab 1</span>} key="1">
+                        <TabPane tab={<span> <Icon type="plus" />Tab 1</span>} key="1">
                             Welcome
                         </TabPane>
-                        <TabPane tab={<span> <AndroidOutlined />Tab 2</span>} key="2">
+                        <TabPane tab={<span> <Icon type="edit" />Tab 2</span>} key="2">
                             Welcome
                         </TabPane>
-                        <TabPane tab={<span> <AndroidOutlined />Tab 3</span>} key="3">
+                        <TabPane tab={<span> <Icon type="delete" />Tab 3</span>} key="3">
                             React
                         </TabPane>
                     </Tabs>
