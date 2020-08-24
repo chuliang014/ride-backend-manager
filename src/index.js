@@ -5,9 +5,7 @@ import IRouter from './router';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <IRouter />
-  </React.StrictMode>,
+  <IRouter />,
   document.getElementById('root')
 );
 

@@ -22,7 +22,7 @@ export default class Axios {
     //封装ajax公共请求机制 
     static ajax = (options) => {
         let loading;
-        if(options.data && options.data.isShowLoading !== false){
+        if (options.data && options.data.isShowLoading !== false) {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
@@ -35,14 +35,14 @@ export default class Axios {
                 timeout: 5000,
                 params: (options.data && options.data.params) || ''
             }).then((response) => {
-                if(options.data && options.data.isShowLoading !== false){
+                if (options.data && options.data.isShowLoading !== false) {
                     loading = document.getElementById('ajaxLoading');
-                    loading.style.display = 'none'; 
+                    loading.style.display = 'none';
                 }
                 if (response.status === 200) {
                     let res = response.data;
-                    console.log(res)
-                    if (res.code === "0") {
+                    // console.log(res)
+                    if (res.code === '0' || res.code === 0) {
                         resolve(res);
                     } else {
                         Modal.info({

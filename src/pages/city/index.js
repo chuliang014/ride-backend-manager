@@ -1,16 +1,23 @@
 import React, { Fragment } from 'react';
-import { Card, Button, Table, Form, Select } from 'antd';
+import { Card, Button, Table, Form, Select, Modal, message } from 'antd';
 import axios from './../../axios/index';
 import Utils from '../../util/utils';
-
+import PropTypes from 'prop-types';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 export default class City extends React.Component {
+    static defaultProps = {}
+
+    static propTypes = {
+        form: PropTypes.any
+    }
 
     state = {
-
+        list: [],
+        isShowOpenCity: false,
+        cityInfo: {}
     }
 
     params = {
@@ -32,6 +39,9 @@ export default class City extends React.Component {
                 }
             }
         }).then((res) => {
+            res.result.item_list.map((item, index) => {
+                item.key = index;
+            })
             this.setState({
                 list: res.result.item_list,
                 pagination: Utils.pagination(res, (current) => {
@@ -44,11 +54,32 @@ export default class City extends React.Component {
 
     // openCity
     handleOpenCity = () => {
+        this.setState({
+            isShowOpenCity: true
+        });
+    }
 
+    //
+    handleSubmit = () => {
+        let cityInfo = this.cityForm.props.form.getFieldsValue();
+        axios.ajax({
+            url:'/city/open',
+            data:{
+                params:cityInfo
+            }
+        }).then((res)=>{
+            if(res.code === 0 || res.code === 0){
+                message.success('开通成功');
+                this.setState({
+                    isShowOpenCity:false
+                })
+                this.requestList();
+            }
+        });
+            
     }
 
     render() {
-
         const columns = [
             {
                 title: 'CityId',
@@ -60,11 +91,17 @@ export default class City extends React.Component {
             },
             {
                 title: 'Car Mode',
-                dataIndex: 'mode'
+                dataIndex: 'mode',
+                render(value) {
+                    return value == 1 ? 'Designated Mode' : 'Forbidden Mode';
+                }
             },
             {
                 title: 'Opeartion Mode',
-                dataIndex: 'op_mode'
+                dataIndex: 'op_mode',
+                render(value) {
+                    return value == 1 ? 'Self-Operated' : 'Franchinse';
+                }
             },
             {
                 title: 'Franchise',
@@ -85,14 +122,14 @@ export default class City extends React.Component {
             },
             {
                 title: 'OperationTime',
-                dataIndex: 'update_time'
+                dataIndex: 'update_time',
+                render: Utils.formateDate
             },
             {
                 title: 'Operator',
                 dataIndex: 'sys_user_name'
             },
         ];
-
 
         return (
             <Fragment>
@@ -110,7 +147,18 @@ export default class City extends React.Component {
                         pagination={this.state.pagination}
                     />
                 </div>
-
+                <Modal
+                    title="OpenCity"
+                    visible={this.state.isShowOpenCity}
+                    onCancel={() => {
+                        this.setState({
+                            isShowOpenCity: false
+                        });
+                    }}
+                    onOk={this.handleSubmit}
+                >
+                    <OpenCityForm wrappedComponentRef={(inst) => { this.cityForm = inst }} />
+                </Modal>
             </Fragment>
         );
     }
@@ -139,7 +187,7 @@ class FilterForm extends React.Component {
                 {/* mode */}
                 <FormItem
                     label="Mode"
-                    name="city_id"
+                    name="mode"
                 >
                     <Select
                         placeholder="All"
@@ -188,3 +236,78 @@ class FilterForm extends React.Component {
         );
     }
 }
+
+class OpenCityForm extends React.Component {
+
+    render() {
+        const formItemLayout = {
+            labelCol: {
+                span: 5
+            },
+            wrapperCol: {
+                span: 10
+            }
+        }
+        const { getFieldDecorator } = this.props.form;
+        return (
+            <Form
+                layout="horizontal"
+            >
+                <FormItem label="Select City"
+                    {...formItemLayout}
+                >
+                    <FormItem>
+                        {
+                            getFieldDecorator('city_id', {
+                                initialValue: '1'
+                            })(
+                                <Select>
+                                    <Option value="">All</Option>
+                                    <Option value="1">Beijing</Option>
+                                    <Option value="2">Shenzhen</Option>
+                                </Select>
+                            )
+                        }
+                    </FormItem>
+                </FormItem>
+
+                <FormItem label="Mode"
+                    {...formItemLayout}
+                >
+                    <FormItem>
+                        {
+                            getFieldDecorator('op_mode', {
+                                initialValue: '1'
+                            })(
+                                <Select>
+                                    <Option value="">All</Option>
+                                    <Option value="1">Self-Operated</Option>
+                                    <Option value="2">Franchise</Option>
+                                </Select>
+                            )
+                        }
+                    </FormItem>
+                </FormItem>
+
+                <FormItem label="Car Mode"
+                    {...formItemLayout}
+                >
+                    <FormItem>
+                        {
+                            getFieldDecorator('use_mode', {
+                                initialValue: '1'
+                            })(
+                                <Select>
+                                    <Option value="">All</Option>
+                                    <Option value="1">Designated District</Option>
+                                    <Option value="2">Forbidden District</Option>
+                                </Select>
+                            )
+                        }
+                    </FormItem>
+                </FormItem>
+            </Form>
+        );
+    }
+}
+OpenCityForm = Form.create({})(OpenCityForm);
