@@ -157,6 +157,7 @@ export default class City extends React.Component {
                     }}
                     onOk={this.handleSubmit}
                 >
+                    {/* 获取数据 */}
                     <OpenCityForm wrappedComponentRef={(inst) => { this.cityForm = inst }} />
                 </Modal>
             </Fragment>
@@ -236,6 +237,7 @@ class FilterForm extends React.Component {
         );
     }
 }
+FilterForm = Form.create({})(FilterForm);
 
 class OpenCityForm extends React.Component {
 
@@ -248,6 +250,7 @@ class OpenCityForm extends React.Component {
                 span: 10
             }
         }
+        //绑定数据
         const { getFieldDecorator } = this.props.form;
         return (
             <Form
