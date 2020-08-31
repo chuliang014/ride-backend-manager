@@ -102,6 +102,18 @@ export default class Order extends React.Component {
         });
     }
 
+    openOrderDetail = () => {
+        let item = this.state.selectedItem;
+        if (!item) {
+            Modal.info({
+                title: 'Info',
+                content: 'Please select one order to end'
+            })
+            return;
+        }
+        window.open(`/#/common/order/detail/${item.id}`, '_blank');
+    }
+
     render() {
 
         const columns = [
@@ -175,7 +187,7 @@ export default class Order extends React.Component {
                     <FilterForm />
                 </Card>
                 <Card style={{ marginTop: 10 }}>
-                    <Button type="primary">Order Details</Button>
+                    <Button type="primary" onClick={this.openOrderDetail}>Order Details</Button>
                     <Button style={{ marginLeft: 10 }} onClick={this.handleComfirm} type="primary">End Order</Button>
                 </Card>
                 <div className="content-wrap">

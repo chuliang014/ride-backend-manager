@@ -18,6 +18,8 @@ import BasicTable from './pages/tabel/basicTable';
 import HighTable from './pages/tabel/highTable';
 import City from './pages/city';
 import Order from './pages/order';
+import Common from './common';
+import OrderDetail from './pages/order/detail';
 
 
 export default class IRouter extends React.Component {
@@ -48,7 +50,13 @@ export default class IRouter extends React.Component {
                             </Switch>
                         </Admin>
                     }></Route>
-                    <Route path="/order/detail" component={Login}></Route>
+
+                    <Route path="/common" render={() =>
+                        <Common>
+                            <Route path="/common/order/detail/:orderId" component={OrderDetail} />
+                        </Common>
+                    }></Route>
+
                 </App>
             </HashRouter>
         );

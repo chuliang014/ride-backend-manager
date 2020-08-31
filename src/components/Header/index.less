@@ -9,8 +9,24 @@
         padding: 0 20px;
         text-align: right;
 
+        .logo {
+            line-height: 60px;
+            text-align: left;
+            font-size: 18px;
+
+            img {
+                height: 40px;
+                vertical-align: middle;
+            }
+
+            span {
+                margin-left: 5px;
+            }
+        }
+
         a {
             margin-left: 40px;
+            color: rgb(231, 206, 63);
         }
     }
 
@@ -23,6 +39,7 @@
         .breadcrumb-title {
             text-align: center;
             font-size: @fontC;
+
             &:after {
                 position: absolute;
                 content: '';
@@ -54,5 +71,12 @@
                 vertical-align: center;
             }
         }
+    }
+}
+
+.simple-page {
+    .header-top {
+        background: #1890ff;
+        color: @colorM;
     }
 }
