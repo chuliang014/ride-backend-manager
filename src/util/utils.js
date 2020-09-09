@@ -1,3 +1,8 @@
+import React from 'react';
+import {Select} from 'antd';
+
+const Option = Select.Option;
+
 //建立公共机制
 export default {
     formateDate(time) {
@@ -22,5 +27,15 @@ export default {
             showQuickJumper: true
         }
         return page;
+    },
+    getOptionList(data) {
+        if (!data) {
+            return [];
+        }
+        let options = [];
+        data.map((item) => {
+            options.push(<Option value={item.id} key={item.id}>{item.name}</Option>);
+        });
+        return options;
     }
 }

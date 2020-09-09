@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Card, Button, Table, Form, Select, Modal, message, DatePicker } from 'antd';
 import axios from './../../axios/index';
 import Utils from '../../util/utils';
+import BaseForm from '../../components/BaseForm';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -17,7 +18,36 @@ export default class Order extends React.Component {
         page: 1
     }
 
+    formList = [
+        {
+            type: 'SELECT',
+            label: 'City',
+            field: 'city',
+            placeholder: 'All',
+            initialValue: '1',
+            width: 80,
+            list: [{ id: '0', name: 'All' }, { id: '1', name: 'Beijing' }, { id: '2', name: 'Tianjin' }, { id: '3', name: 'Shenzhen' }]
+        },
+        {
+            type: 'OrderTime',
+        },
+        {
+            type: 'SELECT',
+            label: 'Order Status',
+            field: 'order_status',
+            placeholder: 'All',
+            initialValue: '1',
+            width: 80,
+            list: [{ id: '0', name: 'All' }, { id: '1', name: 'Running' }, { id: '2', name: 'Ended' }]
+        }
+    ]
+
     componentDidMount() {
+        this.requestList();
+    }
+
+    handleFilter = (params) => {
+        this.params = params;
         this.requestList();
     }
 
@@ -26,9 +56,7 @@ export default class Order extends React.Component {
         axios.ajax({
             url: '/order/list',
             data: {
-                params: {
-                    page: this.params.page
-                }
+                params: this.params
             }
         })
             .then((res) => {
@@ -184,7 +212,7 @@ export default class Order extends React.Component {
         return (
             <Fragment>
                 <Card >
-                    <FilterForm />
+                    <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
                 </Card>
                 <Card style={{ marginTop: 10 }}>
                     <Button type="primary" onClick={this.openOrderDetail}>Order Details</Button>
@@ -235,74 +263,3 @@ export default class Order extends React.Component {
         );
     }
 }
-
-class FilterForm extends React.Component {
-
-    render() {
-
-        const { getFieldDecorator } = this.props.form;
-
-        return (
-            <Form layout="inline">
-                {/* city */}
-                <FormItem
-                    label="City"
-                    name="city_id"
-                >
-                    <Select
-                        placeholder="All"
-                        style={{ width: 100 }}
-                    >
-                        <Option value="">All</Option>
-                        <Option value="1">Beijing</Option>
-                        <Option value="2">Tianjin</Option>
-                        <Option value="3">Shenzhen</Option>
-                    </Select>
-                </FormItem>
-                {/* mode */}
-                <FormItem
-                    label="Order Time"
-                >
-                    {
-                        getFieldDecorator('start_time')(
-                            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                        )
-                    }
-                </FormItem>
-                <FormItem
-                    label="~"
-                >
-                    {
-                        getFieldDecorator('end_time')(
-                            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                        )
-                    }
-                </FormItem>
-                {/* op_mode */}
-                <FormItem
-                    label="Order Status"
-                >
-                    {
-                        getFieldDecorator("order_status")(
-                            <Select
-                                placeholder="All"
-                                style={{ width: 100 }}
-                            >
-                                <Option value="">All</Option>
-                                <Option value="1">Running</Option>
-                                <Option value="2">Ended</Option>
-                            </Select>
-                        )
-                    }
-                </FormItem>
-                {/* Button */}
-                <FormItem>
-                    <Button type="primary" style={{ margin: '0 20px' }}>Search</Button>
-                    <Button>Reset</Button>
-
-                </FormItem>
-            </Form>
-        );
-    }
-}
-FilterForm = Form.create({})(FilterForm);
