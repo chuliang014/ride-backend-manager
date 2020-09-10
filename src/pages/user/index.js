@@ -6,6 +6,7 @@ import ETable from '../../components/ETable';
 import BaseForm from '../../components/BaseForm';
 import RadioGroup from 'antd/lib/radio/group';
 import TextArea from 'antd/lib/input/TextArea';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -58,11 +59,68 @@ export default class User extends React.Component {
     }
 
     handleOperate = (type) => {
+        let item = this.state.selectedItem;
         if (type == 'create') {
             this.setState({
                 type,
                 isVisible: true,
                 title: 'Create'
+            })
+        } else if (type == 'edit') {
+            if (!item) {
+                Modal.info({
+                    title: 'Attention',
+                    content: 'Please select a user'
+                })
+                return;
+            }
+            this.setState({
+                type,
+                isVisible: true,
+                title: 'Edit',
+                userInfo: item
+            })
+        } else if (type == 'detail') {
+            if (!item) {
+                Modal.info({
+                    title: 'Attention',
+                    content: 'Please select a user'
+                })
+                return;
+            }
+            this.setState({
+                type,
+                isVisible: true,
+                title: 'Detail',
+                userInfo: item
+            })
+        } else {
+            if (!item) {
+                Modal.info({
+                    title: 'Attention',
+                    content: 'Please select a user'
+                })
+                return;
+            }
+            let _this = this;
+            Modal.confirm({
+                title: 'Delete',
+                content: 'Do you need to delete?',
+                onOk() {
+                    axios.ajax({
+                        url: '/user/delete',
+                        data: {
+                            params: {
+                                id: item.id
+                            }
+                        }
+                    }).then(res => {
+                        _this.setState({
+                            isVisible: false,
+                        })
+                        _this.requestList();
+                    })
+                }
             })
         }
     }
@@ -72,7 +130,7 @@ export default class User extends React.Component {
         let type = this.state.type;
         let data = this.userForm.props.form.getFieldsValue();
         axios.ajax({
-            url: '/user/add',
+            url: type == 'create' ? '/user/add' : '/user/edit',
             data: {
                 params: data
             }
@@ -125,6 +183,12 @@ export default class User extends React.Component {
                 dataIndex: 'time',
             },
         ]
+        let footer = {};
+        if (this.state.type == 'detail') {
+            footer = {
+                footer: null
+            }
+        }
         return (
             <Fragment>
                 <Card>
@@ -157,8 +221,9 @@ export default class User extends React.Component {
                         })
                     }}
                     width={600}
+                    {...footer}
                 >
-                    <UserForm type={this.state.type} wrappedComponentRef={(inst) => this.userForm = inst} />
+                    <UserForm type={this.state.type} userInfo={this.state.userInfo} wrappedComponentRef={(inst) => this.userForm = inst} />
                 </Modal>
             </Fragment>
         );
@@ -167,6 +232,8 @@ export default class User extends React.Component {
 
 class UserForm extends React.Component {
     render() {
+        let type = this.props.type;
+        let userInfo = this.props.userInfo || {};
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 5 },
@@ -176,46 +243,61 @@ class UserForm extends React.Component {
             <Form layout="horizontal">
                 <FormItem label="Username" {...formItemLayout}>
                     {
-                        getFieldDecorator('user_name')(
-                            <Input type="text" placeholder="Please enter username" />
-                        )
+                        type == 'detail' ? userInfo.userName :
+                            getFieldDecorator('userName', {
+                                initialValue: userInfo.userName
+                            })(
+                                <Input type="text" placeholder="Please enter username" />
+                            )
                     }
                 </FormItem>
                 <FormItem label="Sex" {...formItemLayout}>
                     {
-                        getFieldDecorator('sex')(
-                            <RadioGroup>
-                                <Radio value={1}>Male</Radio>
-                                <Radio value={2}>Female</Radio>
-                            </RadioGroup>
-                        )
+                        type == 'detail' ? userInfo.sex == 1 ? 'Male' : 'Female' :
+                            getFieldDecorator('sex', {
+                                initialValue: userInfo.sex
+                            })(
+                                <RadioGroup>
+                                    <Radio value={1}>Male</Radio>
+                                    <Radio value={2}>Female</Radio>
+                                </RadioGroup>
+                            )
                     }
                 </FormItem>
                 <FormItem label="Status" {...formItemLayout}>
                     {
-                        getFieldDecorator('state')(
-                            <Select>
-                                <Option value={1}>1</Option>
-                                <Option value={2}>2</Option>
-                                <Option value={3}>3</Option>
-                                <Option value={4}>4</Option>
-                                <Option value={5}>5</Option>
-                            </Select>
-                        )
+                        type == 'detail' ? userInfo.state :
+                            getFieldDecorator('state', {
+                                initialValue: userInfo.state
+                            })(
+                                <Select>
+                                    <Option value={1}>1</Option>
+                                    <Option value={2}>2</Option>
+                                    <Option value={3}>3</Option>
+                                    <Option value={4}>4</Option>
+                                    <Option value={5}>5</Option>
+                                </Select>
+                            )
                     }
                 </FormItem>
                 <FormItem label="Birthday" {...formItemLayout}>
                     {
-                        getFieldDecorator('birthday')(
-                            <DatePicker />
-                        )
+                        type == 'detail' ? userInfo.birthday :
+                            getFieldDecorator('birthday', {
+                                initialValue: moment(userInfo.birthday)
+                            })(
+                                <DatePicker />
+                            )
                     }
                 </FormItem>
                 <FormItem label="Address" {...formItemLayout}>
                     {
-                        getFieldDecorator('address')(
-                            <TextArea rows={3} placeholder="please enter address" />
-                        )
+                        type == 'detail' ? userInfo.address :
+                            getFieldDecorator('address', {
+                                initialValue: userInfo.address
+                            })(
+                                <TextArea rows={3} placeholder="please enter address" />
+                            )
                     }
                 </FormItem>
             </Form>
