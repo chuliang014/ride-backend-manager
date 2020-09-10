@@ -93,6 +93,16 @@ class FilterForm extends React.Component {
                         }
                     </FormItem>
                     formItemList.push(CHECKBOX);
+                }else if (item.type == 'DATE') {
+                    const Date = <FormItem label={label} key={field}>
+                         {
+                            // 中括号可以把他当成变量的形式来对待
+                            getFieldDecorator([field])(
+                                <DatePicker showTime={true} placeholder={placeholder} format="YYYY-MM-DD HH:mm:ss" />
+                            )
+                        }
+                    </FormItem>
+                    formItemList.push(Date);
                 }
             });
         }
