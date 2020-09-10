@@ -3,6 +3,7 @@ import { Card, Button, Table, Form, Select, Modal, message, DatePicker } from 'a
 import axios from './../../axios/index';
 import Utils from '../../util/utils';
 import BaseForm from '../../components/BaseForm';
+import ETable from '../../components/ETable';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -102,14 +103,6 @@ export default class Order extends React.Component {
         });
     }
 
-    onRowClick = (record, index) => {
-        let selectKey = [index];
-        this.setState({
-            selectedRowKeys: selectKey,
-            selectedItem: record
-        });
-    }
-
     openOrderDetail = () => {
         let item = this.state.selectedItem;
         if (!item) {
@@ -183,12 +176,6 @@ export default class Order extends React.Component {
             }
         }
 
-        const selectedRowKeys = this.state.selectedRowKeys;
-        const rowSelection = {
-            type: 'radio',
-            selectedRowKeys
-        }
-
         return (
             <Fragment>
                 <Card >
@@ -199,19 +186,15 @@ export default class Order extends React.Component {
                     <Button style={{ marginLeft: 10 }} onClick={this.handleComfirm} type="primary">End Order</Button>
                 </Card>
                 <div className="content-wrap">
-                    <Table
-                        bordered
-                        rowSelection={rowSelection}
+                    <ETable
+                        updateSelectedItem={Utils.updateSelectedItem.bind(this)}
                         columns={columns}
                         dataSource={this.state.list}
+                        selectedIds={this.state.selectedIds}
+                        selectedItem={this.state.selectedItem}
+                        selectedRowKeys={this.state.selectedRowKeys}
                         pagination={this.state.pagination}
-                        onRow={(record, index) => {
-                            return {
-                                onClick: () => {
-                                    this.onRowClick(record, index);
-                                }
-                            }
-                        }}
+                        rowSelection='checkbox'
                     />
                 </div>
                 <Modal

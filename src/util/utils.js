@@ -1,5 +1,5 @@
 import React from 'react';
-import {Select} from 'antd';
+import { Select } from 'antd';
 
 const Option = Select.Option;
 
@@ -37,5 +37,20 @@ export default {
             options.push(<Option value={item.id} key={item.id}>{item.name}</Option>);
         });
         return options;
+    },
+    updateSelectedItem(selectedRowKeys, selectedItem, selectedIds) {
+        if (selectedIds) {
+            this.setState({
+                selectedRowKeys,
+                selectedItem,
+                selectedIds
+            })
+        } else {
+            this.setState({
+                selectedRowKeys,
+                selectedItem
+            })
+        }
+
     }
 }
